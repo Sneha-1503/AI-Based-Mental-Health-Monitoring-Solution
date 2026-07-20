@@ -216,7 +216,3 @@ Machine Learning Project
 - Streamlit
 - Kaggle
 - Python Community
-
-
-# note 
-the ui is still under development. I will update it once its done.
