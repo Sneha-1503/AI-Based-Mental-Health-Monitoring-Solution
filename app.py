@@ -11,8 +11,55 @@ st.set_page_config(
     page_icon="🧠",
     layout="wide"
 )
+st.markdown("""
+<style>
 
-st.title("🧠 AI-Based Mental Health Monitoring System")
+.stButton>button{
+
+    background-color:#4CAF50;
+    color:white;
+    border-radius:10px;
+    height:50px;
+    font-size:18px;
+}
+
+.stButton>button:hover{
+
+    background-color:#45a049;
+}
+
+</style>
+""", unsafe_allow_html=True)
+
+st.sidebar.title("🧠 AI Mental Health Monitor")
+
+st.sidebar.markdown("---")
+
+st.sidebar.header("Project Information")
+
+st.sidebar.info("""
+**Model:** Random Forest
+
+**Accuracy:** 73.78%
+
+**Encoding:** One-Hot Encoding
+
+**Dataset:** Mental Health Survey
+""")
+
+st.sidebar.markdown("---")
+
+st.sidebar.success("Developed for Machine Learning Project")
+
+
+st.markdown("""
+# 🧠 AI-Based Mental Health Monitoring System
+
+Predict whether a person is likely to seek mental health treatment based on survey responses.
+
+---
+""")
+
 st.write("Fill in the details below to predict whether treatment is recommended.")
 gender = st.selectbox(
     "Gender",
@@ -90,8 +137,14 @@ care_options = st.selectbox(
     "Care Options",
     ["Yes","No","Not Sure"]
 )
-if st.button("Predict"):
+#if st.button("Predict"):
 
+predict = st.button(
+    "🔍 Predict Mental Health Status",
+    use_container_width=True
+)
+
+if predict:
     user_data = pd.DataFrame({
         "Gender":[gender],
         "Country":[country],
@@ -125,42 +178,55 @@ if st.button("Predict"):
 
     confidence = probability.max()*100
 
+    st.markdown("---")
+
+    st.subheader("Prediction Result")
+
     if prediction[0] == "Yes":
-
-        st.error("⚠️ Treatment Recommended")
-
+        st.error("🔴 Treatment Recommended")
     else:
+        st.success("🟢 Treatment Not Required")
 
-        st.success("✅ Treatment Not Required")
+    st.progress(confidence / 100)
 
-    st.write(f"Confidence : {confidence:.2f}%")
-    st.subheader("Recommendations")
-    if prediction[0] == "Yes":
-        st.write("""
-        • Practice mindfulness and meditation
-
-        • Maintain a healthy sleep routine
-
-        • Exercise regularly
-
-        • Talk to trusted friends or family
-
-        • Consider consulting a mental health professional
-        """)
-
-    else:
-
-        st.write("""
-        • Continue maintaining a healthy lifestyle
-
-        • Stay socially connected
-
-        • Exercise regularly
-
-        • Manage stress effectively
-        """)
-
-    st.warning(
-        "This application is intended for educational purposes only and "
-        "does not provide a medical diagnosis."
+    st.metric(
+        label="Confidence",
+        value=f"{confidence:.2f}%"
     )
+
+    
+
+    st.markdown("---")
+    st.subheader("💡 Recommendations")
+
+    if prediction[0] == "Yes":
+
+        st.warning("""
+        - Practice mindfulness and meditation
+        - Maintain healthy sleeping habits
+        - Exercise regularly
+        - Stay connected with family and friends
+        - Consult a mental health professional
+        """)
+
+    else:
+
+        st.success("""
+        - Maintain your healthy lifestyle
+        - Continue regular exercise
+        - Keep a balanced routine
+        - Stay socially connected
+        """)
+
+    st.markdown("---")
+
+    st.info(
+        "⚠ This application is for educational purposes only and does not replace professional medical advice."
+    )
+    st.markdown("---")
+
+st.caption(
+    "Developed by Sneha Singh | AI-Based Mental Health Monitoring System | Machine Learning Project"
+)
+
+
